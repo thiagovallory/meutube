@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exemplo de Incorporação de Vídeo do YouTube com HTML5</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+
+    *{
+      font-family: 'Ubuntu', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    body, html {
+        height: 100%;
+        background-color: rgb(255, 255, 255);
+        color: #ccc;
+        background-color: black;
+    }
+    #divTop{
+        width: 432px;
+        height: 26px;
+        margin: 10px auto;
+        padding: 0 5px;
+        font-size: 17px;
+        background-color: black;
+        border-radius: 5px;
+    }
+    #videoLabel{
+        width: 190px;
+        height: 10px;
+    }
+    #divInput{
+        width: 228px;
+        height: 25px;
+        display: inline-block;
+        border-radius: 5px;
+        background-color: #555;
+        padding: 2px 0 0 0;
+    }
+    #videoId{
+        width: 100px;
+        margin-left: 5px;
+        text-align: center;
+        background-color: transparent;
+        border: 0;
+        font-size: 13px;
+    }
+    #videoButton{
+        width: 115px;
+        height: 18px;
+        background-color: #ccc;
+        border: 0;
+        border-radius: 5px;
+        font-size: 13px;
+    }
+    #video-container {
+        position: absolute;
+        top: 45px;
+        left: 0;
+        width: 100%;
+        height: 90%;
+    }
+</style>
+</head>
+<body>
+    <div id="divTop">
+        <label id="videoLabel" for="videoId">ID do Vídeo do YouTube:</label>
+        <div id="divInput">
+            <input type="text" id="videoId" placeholder="ID do vídeo">
+            <button id="videoButton" onclick="embedYouTubeVideo()">Incorporar Vídeo</button>
+        </div>
+    </div>
+    <div id="video-container"></div>
+
+    <script>
+        function embedYouTubeVideo(videoId) {
+            var videoIdInput = document.getElementById('videoId');
+            if (!videoId) {
+                videoId = videoIdInput.value;
+            } else {
+                videoIdInput.value = videoId; // Preenche o input com o valor do parâmetro
+            }
+
+            var videoContainer = document.getElementById('video-container');
+            var iframe = document.createElement('iframe');
+            iframe.width = '100%';
+            iframe.height = '100%';
+            iframe.src = 'https://www.youtube.com/embed/' + videoId;
+            iframe.frameBorder = '0';
+            iframe.allowFullscreen = true;
+
+            // Remove o vídeo anterior, se houver
+            while (videoContainer.firstChild) {
+                videoContainer.removeChild(videoContainer.firstChild);
+            }
+
+            videoContainer.appendChild(iframe);
+        }
+
+        // Extrai o ID do vídeo da URL
+        var urlParams = new URLSearchParams(window.location.search);
+        var urlVideoId = urlParams.get('v');
+
+        // Chama a função para incorporar o vídeo
+        if (urlVideoId) {
+            embedYouTubeVideo(urlVideoId);
+        }
+    </script>
+</body>
+</html>
+
